@@ -1,18 +1,27 @@
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, FlatList } from "react-native";
+
+import { MOCK_STOCKS } from "@/mock/data";
+
+import { StockCard } from "./components/stockCard";
 
 export function Watchlist() {
 	return (
-		<View style={styles.container}>
-			<Text>Watchlist</Text>
-		</View>
+		<FlatList
+			style={styles.container}
+			data={MOCK_STOCKS}
+			keyExtractor={(item) => item.symbol}
+			renderItem={({ item }) => <StockCard stock={item} />}
+			contentContainerStyle={{ paddingVertical: 16 }}
+		/>
 	);
 }
 
 const styles = StyleSheet.create({
 	container: {
-		justifyContent: "center",
-		alignItems: "center",
+		paddingHorizontal: 16,
+		paddingTop: 16,
 		flex: 1,
+		backgroundColor: "#020617",
 	},
 });
 
