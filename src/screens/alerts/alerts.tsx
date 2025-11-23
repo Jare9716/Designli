@@ -6,16 +6,21 @@ import {
 	TextInput,
 	Pressable,
 	Alert,
+	Keyboard,
 } from "react-native";
 
 import { Picker } from "@react-native-picker/picker";
 
-import { StockSymbol } from "@/types";
-
-import { MOCK_STOCKS } from "@/mock/data";
+import { StockSymbolsProps } from "@/types";
 
 export function Alerts() {
-	const [symbol, setSymbol] = useState<StockSymbol>("AAPL");
+	const symbols: StockSymbolsProps[] = [
+		"BINANCE:BTCUSDT",
+		"BINANCE:ETHUSDT",
+		"AAPL",
+		"TSLA",
+	];
+	const [symbol, setSymbol] = useState<StockSymbolsProps>("AAPL");
 	const [targetPrice, setTargetPrice] = useState("");
 
 	const handleSave = () => {
@@ -32,7 +37,7 @@ export function Alerts() {
 		setTargetPrice("");
 	};
 	return (
-		<View style={styles.container}>
+		<Pressable style={styles.container} onPress={() => Keyboard.dismiss()}>
 			<Text style={styles.label}>Stock</Text>
 			<View style={styles.pickerWrapper}>
 				<Picker
@@ -41,17 +46,11 @@ export function Alerts() {
 					dropdownIconColor="white"
 					style={styles.picker}
 				>
-					{MOCK_STOCKS.map((s) => (
-						<Picker.Item
-							key={s.symbol}
-							label={`${s.symbol} — ${s.name}`}
-							value={s.symbol}
-							color="white"
-						/>
+					{symbols.map((s, index) => (
+						<Picker.Item key={index} label={s} value={s} color="white" />
 					))}
 				</Picker>
 			</View>
-
 			<Text style={styles.label}>Target Price (USD)</Text>
 			<TextInput
 				value={targetPrice}
@@ -61,11 +60,10 @@ export function Alerts() {
 				placeholderTextColor="#6B7280"
 				style={styles.input}
 			/>
-
 			<Pressable style={styles.button} onPress={handleSave}>
 				<Text style={styles.buttonText}>Save Alert (mock)</Text>
 			</Pressable>
-		</View>
+		</Pressable>
 	);
 }
 

@@ -1,16 +1,26 @@
+import { useMemo } from "react";
 import { StyleSheet, FlatList } from "react-native";
 
-import { MOCK_STOCKS } from "@/mock/data";
+import { useAppSelector } from "@/redux/hooks";
+
+import { symbols } from "./helpers";
 
 import { StockCard } from "./components/stockCard";
 
 export function Watchlist() {
+	const bySymbol = useAppSelector((state) => state.stock.bySymbol);
+
+	const data = symbols.map((symbol) => {
+		const stock = bySymbol[symbol];
+		return [symbol, stock?.lastPrice] as const;
+	});
+
 	return (
 		<FlatList
 			style={styles.container}
-			data={MOCK_STOCKS}
-			keyExtractor={(item) => item.symbol}
-			renderItem={({ item }) => <StockCard stock={item} />}
+			data={data}
+			keyExtractor={([symbol]) => symbol}
+			renderItem={({ item }) => <StockCard data={item} />}
 			contentContainerStyle={{ paddingVertical: 16 }}
 		/>
 	);

@@ -1,20 +1,48 @@
+import { useState, useRef, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import { stockCardProps } from "@/types";
+import { StockCardProps } from "@/types";
 
-export function StockCard({ stock }: stockCardProps) {
-	const isUp = stock.changePct >= 0;
+import { StockSymbolsName } from "@/enums";
+
+export function StockCard({ data }: StockCardProps) {
+	const [symbol, price] = data;
+
+	const [changePct, setChangePct] = useState(0);
+	const baselineRef = useRef<number | null>(null);
+
+	useEffect(() => {
+		if (price == null) return;
+
+		if (baselineRef.current == null) {
+			baselineRef.current = price;
+			setChangePct(0);
+			return;
+		}
+
+		const base = baselineRef.current || price;
+		const pct = ((price - base) / base) * 100;
+		setChangePct(pct);
+	}, [price]);
+
+	const name = StockSymbolsName[symbol];
+	const isUp = changePct >= 0;
+	const changeColor = isUp ? "#4ADE80" : "#F97373";
+
 	return (
 		<View style={styles.container}>
 			<View>
-				<Text style={styles.titleText}>{stock.symbol}</Text>
-				<Text style={styles.nameText}>{stock.name}</Text>
+				<Text style={styles.symbolText}>{symbol}</Text>
+				<Text style={styles.nameText}>{name}</Text>
 			</View>
-			<View style={{ alignItems: "flex-end" }}>
-				<Text style={styles.titleText}>${stock.price.toFixed(2)}</Text>
-				<Text style={[styles.changeText, isUp ? styles.up : styles.down]}>
-					{isUp ? "+" : ""}
-					{stock.changePct.toFixed(2)}%
+
+			<View style={styles.valuesContainer}>
+				<Text style={styles.priceText}>
+					{price != null ? "$" + price.toFixed(2) : "—"}
+				</Text>
+				<Text style={[styles.changeText, { color: changeColor }]}>
+					{changePct >= 0 ? "+" : ""}
+					{changePct.toFixed(2)}%
 				</Text>
 			</View>
 		</View>
@@ -23,29 +51,33 @@ export function StockCard({ stock }: stockCardProps) {
 
 const styles = StyleSheet.create({
 	container: {
-		padding: 16,
-		borderRadius: 12,
-		marginBottom: 12,
-		backgroundColor: "#111827",
 		flexDirection: "row",
 		justifyContent: "space-between",
+		alignItems: "center",
+		paddingVertical: 12,
+		borderBottomWidth: 1,
+		borderBottomColor: "rgba(148,163,184,0.2)",
 	},
-	titleText: {
-		fontSize: 18,
-		fontWeight: "700",
+	symbolText: {
 		color: "white",
+		fontSize: 16,
+		fontWeight: "700",
+	},
+	valuesContainer: {
+		alignItems: "flex-end",
 	},
 	nameText: {
-		fontSize: 14,
 		color: "#9CA3AF",
+		fontSize: 13,
+		marginTop: 2,
+	},
+	priceText: {
+		color: "white",
+		fontSize: 16,
+		fontWeight: "600",
 	},
 	changeText: {
-		fontSize: 14,
-	},
-	up: {
-		color: "#10B981",
-	},
-	down: {
-		color: "#EF4444",
+		fontSize: 13,
+		marginTop: 2,
 	},
 });

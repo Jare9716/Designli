@@ -1,5 +1,5 @@
-import { MockStock } from "@/mock/data";
+import { StockSymbolsProps } from "../stock/data";
 
-export type stockCardProps = {
-	stock: MockStock;
+export type StockCardProps = {
+	data: readonly [StockSymbolsProps, number | null];
 };

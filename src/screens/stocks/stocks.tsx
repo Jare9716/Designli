@@ -27,6 +27,14 @@ export function Stocks() {
 
 	return (
 		<View style={styles.container}>
+			<View style={styles.legendContainer}>
+				{Y_KEYS.map((key) => (
+					<View key={key} style={styles.legendItem}>
+						<View style={[styles.dot, { backgroundColor: COLORS[key] }]} />
+						<Text style={styles.legendText}>{key}</Text>
+					</View>
+				))}
+			</View>
 			<View style={styles.chartWrapper}>
 				<CartesianChart
 					data={MOCK_SERIES}
@@ -79,7 +87,27 @@ const styles = StyleSheet.create({
 		paddingTop: 16,
 	},
 	chartWrapper: {
-		height: 300,
+		height: 350,
+	},
+	legendContainer: {
+		flexDirection: "row",
+		justifyContent: "space-evenly",
+		marginBottom: 12,
+	},
+	legendItem: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 6,
+	},
+	dot: {
+		width: 10,
+		height: 10,
+		borderRadius: 5,
+	},
+	legendText: {
+		color: "white",
+		fontSize: 14,
+		fontWeight: "600",
 	},
 });
 
