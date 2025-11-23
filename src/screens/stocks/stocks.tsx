@@ -1,50 +1,40 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import { CartesianChart, Line } from "victory-native";
 import { useFont } from "@shopify/react-native-skia";
 
-import { StockSymbol } from "@/types";
+import { useAppSelector } from "@/redux/hooks";
+import { selectChartSeries } from "@/redux/selectors/selectors";
 
-const MOCK_SERIES = Array.from({ length: 30 }, (_, i) => ({
-	x: i,
-	AAPL: 190 + Math.sin(i / 5) * 3,
-	TSLA: 250 + Math.sin(i / 3) * 4,
-	AMZN: 130 + Math.sin(i / 4) * 2,
-	MSFT: 330 + Math.sin(i / 6) * 2,
-}));
+import { chartColors } from "@/enums";
 
-const Y_KEYS: StockSymbol[] = ["AAPL", "TSLA", "AMZN", "MSFT"];
-
-const COLORS: Record<(typeof Y_KEYS)[number], string> = {
-	AAPL: "#4ADE80",
-	TSLA: "#F87171",
-	AMZN: "#FACC15",
-	MSFT: "#60A5FA",
-};
+import { symbols } from "@/utils";
 
 export function Stocks() {
 	const font = useFont(require("../../../assets/fonts/Roboto-Regular.ttf"), 14);
 
+	// 🔥 Real-time chart data from Redux
+	const data = useAppSelector(selectChartSeries(symbols));
+
 	return (
 		<View style={styles.container}>
-			<View style={styles.legendContainer}>
-				{Y_KEYS.map((key) => (
-					<View key={key} style={styles.legendItem}>
-						<View style={[styles.dot, { backgroundColor: COLORS[key] }]} />
-						<Text style={styles.legendText}>{key}</Text>
-					</View>
-				))}
-			</View>
 			<View style={styles.chartWrapper}>
 				<CartesianChart
-					data={MOCK_SERIES}
+					data={data}
 					xKey="x"
-					yKeys={Y_KEYS}
+					yKeys={symbols}
 					domainPadding={{ left: 10, right: 90 }}
 					xAxis={{
 						font,
 						labelColor: "#bfccdeff",
 						lineColor: "rgba(255,255,255,0.2)",
+						formatXLabel: (x) => {
+							const d = new Date(x);
+							return `${d.getHours()}:${String(d.getMinutes()).padStart(
+								2,
+								"0"
+							)}`;
+						},
 					}}
 					yAxis={[
 						{
@@ -53,7 +43,7 @@ export function Stocks() {
 							lineColor: "rgba(255,255,255,0.2)",
 							axisSide: "right",
 							labelPosition: "inset",
-							formatYLabel: (y) => `$ ${y.toFixed(2)}`,
+							formatYLabel: (y) => `$${y.toFixed(2)}`,
 						},
 					]}
 					frame={{
@@ -63,17 +53,25 @@ export function Stocks() {
 				>
 					{({ points }) => (
 						<>
-							{Y_KEYS.map((key) => (
+							{symbols.map((key) => (
 								<Line
 									key={key}
 									points={points[key]}
-									color={COLORS[key]}
+									color={chartColors[key]}
 									strokeWidth={2}
 								/>
 							))}
 						</>
 					)}
 				</CartesianChart>
+			</View>
+			<View style={styles.legendContainer}>
+				{symbols.map((key) => (
+					<View key={key} style={styles.legendItem}>
+						<View style={[styles.dot, { backgroundColor: chartColors[key] }]} />
+						<Text style={styles.legendText}>{key}</Text>
+					</View>
+				))}
 			</View>
 		</View>
 	);
@@ -90,9 +88,8 @@ const styles = StyleSheet.create({
 		height: 350,
 	},
 	legendContainer: {
-		flexDirection: "row",
-		justifyContent: "space-evenly",
-		marginBottom: 12,
+		marginTop: 12,
+		gap: 12,
 	},
 	legendItem: {
 		flexDirection: "row",

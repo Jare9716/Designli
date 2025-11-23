@@ -1,9 +1,8 @@
-import { useMemo } from "react";
 import { StyleSheet, FlatList } from "react-native";
 
 import { useAppSelector } from "@/redux/hooks";
 
-import { symbols } from "./helpers";
+import { symbols } from "@/utils";
 
 import { StockCard } from "./components/stockCard";
 
@@ -12,8 +11,11 @@ export function Watchlist() {
 
 	const data = symbols.map((symbol) => {
 		const stock = bySymbol[symbol];
-		return [symbol, stock?.lastPrice] as const;
+		return [symbol, stock.lastPrice] as const;
 	});
+
+	//TODO: check if the card cand received the data as it is.
+	// console.log(bySymbol);
 
 	return (
 		<FlatList
@@ -21,7 +23,7 @@ export function Watchlist() {
 			data={data}
 			keyExtractor={([symbol]) => symbol}
 			renderItem={({ item }) => <StockCard data={item} />}
-			contentContainerStyle={{ paddingVertical: 16 }}
+			contentContainerStyle={styles.itemContainer}
 		/>
 	);
 }
@@ -32,6 +34,9 @@ const styles = StyleSheet.create({
 		paddingTop: 16,
 		flex: 1,
 		backgroundColor: "#020617",
+	},
+	itemContainer: {
+		paddingVertical: 16,
 	},
 });
 

@@ -13,7 +13,7 @@ const initialState: MarketDataStateProps = {
 	},
 };
 
-const MAX_HISTORY = 200;
+const MAX_HISTORY = 100;
 
 export const marketDataSlice = createSlice({
 	name: "marketData",

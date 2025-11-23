@@ -9,7 +9,7 @@ import { RootStack } from "./rootStack";
 const WATCHLIST: StockSymbolsProps[] = ["BINANCE:BTCUSDT", "BINANCE:ETHUSDT"];
 
 function Navigation() {
-	const { connected } = useFinnhubSocket(WATCHLIST, 1000);
+	const { connected } = useFinnhubSocket(WATCHLIST);
 	return (
 		<NavigationContainer>
 			<RootStack />
