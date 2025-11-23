@@ -1,8 +1,8 @@
 import { StockState } from "../redux/stockState";
 
 export type StockSymbolsProps =
-	| "BINANCE:BTCUSDT"
-	| "BINANCE:ETHUSDT"
+	| "BINANCEUS:BTCUSD"
+	| "BINANCEUS:ETHUSD"
 	| "AAPL"
 	| "TSLA";
 
@@ -16,13 +16,6 @@ export type TradeMessageProps = {
 		t: number;
 		v: number;
 	}[];
-};
-
-export type PriceAlertProps = {
-	id: string;
-	symbol: string;
-	targetPrice: number;
-	triggered: boolean;
 };
 
 export type PriceUpdateProps = {

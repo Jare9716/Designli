@@ -6,8 +6,8 @@ import { makeInitialStock } from "../helpers";
 
 const initialState: MarketDataStateProps = {
 	bySymbol: {
-		"BINANCE:BTCUSDT": makeInitialStock("BINANCE:BTCUSDT", "Bitcoin"),
-		"BINANCE:ETHUSDT": makeInitialStock("BINANCE:ETHUSDT", "Ethereum"),
+		"BINANCEUS:BTCUSD": makeInitialStock("BINANCEUS:BTCUSD", "Bitcoin"),
+		"BINANCEUS:ETHUSD": makeInitialStock("BINANCEUS:ETHUSD", "Ethereum"),
 		AAPL: makeInitialStock("AAPL", "Apple"),
 		TSLA: makeInitialStock("TSLA", "Tesla"),
 	},

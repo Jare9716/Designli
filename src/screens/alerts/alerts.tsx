@@ -12,30 +12,42 @@ import {
 import { Picker } from "@react-native-picker/picker";
 
 import { StockSymbolsProps } from "@/types";
+import { symbols } from "@/utils";
+
+import { useAppDispatch } from "@/redux/hooks";
+import { alertAdded } from "@/redux/slices/alertsSlice";
 
 export function Alerts() {
-	const symbols: StockSymbolsProps[] = [
-		"BINANCE:BTCUSDT",
-		"BINANCE:ETHUSDT",
-		"AAPL",
-		"TSLA",
-	];
 	const [symbol, setSymbol] = useState<StockSymbolsProps>("AAPL");
 	const [targetPrice, setTargetPrice] = useState("");
 
+	const dispatch = useAppDispatch();
+
 	const handleSave = () => {
 		const price = Number(targetPrice);
+
 		if (!price || price <= 0) {
 			Alert.alert("Invalid price", "Please enter a valid target price.");
 			return;
 		}
 
+		// 🔥 Create a real alert in Redux (direction defaults to "above" in the slice)
+		dispatch(
+			alertAdded({
+				symbol,
+				targetPrice: price,
+				// direction: "above", // optional, we default this in the reducer
+			})
+		);
+
 		Alert.alert(
 			"Alert saved",
 			`Alert created for ${symbol} at $${price.toFixed(2)}`
 		);
+
 		setTargetPrice("");
 	};
+
 	return (
 		<Pressable style={styles.container} onPress={() => Keyboard.dismiss()}>
 			<Text style={styles.label}>Stock</Text>
@@ -46,11 +58,12 @@ export function Alerts() {
 					dropdownIconColor="white"
 					style={styles.picker}
 				>
-					{symbols.map((s, index) => (
-						<Picker.Item key={index} label={s} value={s} color="white" />
+					{symbols.map((s) => (
+						<Picker.Item key={s} label={s} value={s} color="white" />
 					))}
 				</Picker>
 			</View>
+
 			<Text style={styles.label}>Target Price (USD)</Text>
 			<TextInput
 				value={targetPrice}
@@ -60,8 +73,9 @@ export function Alerts() {
 				placeholderTextColor="#6B7280"
 				style={styles.input}
 			/>
+
 			<Pressable style={styles.button} onPress={handleSave}>
-				<Text style={styles.buttonText}>Save Alert (mock)</Text>
+				<Text style={styles.buttonText}>Save Alert</Text>
 			</Pressable>
 		</Pressable>
 	);

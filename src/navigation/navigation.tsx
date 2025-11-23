@@ -1,15 +1,19 @@
 import { NavigationContainer } from "@react-navigation/native";
 
-import { useFinnhubSocket } from "@/hooks";
+import {
+	useFinnhubSocket,
+	usePriceAlerts,
+	useNotificationPermission,
+} from "@/hooks";
 
-import { StockSymbolsProps } from "@/types";
+import { symbols } from "@/utils";
 
 import { RootStack } from "./rootStack";
 
-const WATCHLIST: StockSymbolsProps[] = ["BINANCE:BTCUSDT", "BINANCE:ETHUSDT"];
-
 function Navigation() {
-	const { connected } = useFinnhubSocket(WATCHLIST);
+	const { connected } = useFinnhubSocket(symbols);
+	const { granted } = useNotificationPermission();
+	usePriceAlerts(granted);
 	return (
 		<NavigationContainer>
 			<RootStack />

@@ -1,6 +1,6 @@
 export enum StockSymbolsName {
-	"BINANCE:BTCUSDT" = "Bitcoin",
-	"BINANCE:ETHUSDT" = "Ethereum",
+	"BINANCEUS:BTCUSD" = "Bitcoin",
+	"BINANCEUS:ETHUSD" = "Ethereum",
 	AAPL = "Apple",
 	TSLA = "Tesla",
 }

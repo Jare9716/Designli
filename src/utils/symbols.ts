@@ -1,8 +1,8 @@
 import { StockSymbolsProps } from "@/types";
 
 export const symbols: StockSymbolsProps[] = [
-	"BINANCE:BTCUSDT",
-	"BINANCE:ETHUSDT",
+	"BINANCEUS:BTCUSD",
+	"BINANCEUS:ETHUSD",
 	"AAPL",
 	"TSLA",
 ];
