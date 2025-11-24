@@ -7,10 +7,7 @@ import { Urls } from "@/networking/urls";
 
 import { TradeMessageProps, StockSymbolsProps, PriceMapProps } from "@/types";
 
-export function useFinnhubSocket(
-	symbols: StockSymbolsProps[],
-	throttleMs = 1000
-) {
+export function useFinnhubSocket(symbols: StockSymbolsProps[]) {
 	const [connected, setConnected] = useState(false);
 
 	const API_KEY = process.env.EXPO_PUBLIC_FINNHUB_API_KEY;
@@ -18,13 +15,16 @@ export function useFinnhubSocket(
 
 	const dispatch = useAppDispatch();
 
-	const latestRef = useRef<PriceMapProps>({} as PriceMapProps);
+	const latestRef = useRef<PriceMapProps>({
+		"BINANCE:BTCUSDT": 0,
+		"BINANCE:ETHUSDT": 0,
+		"BINANCE:BNBUSDT": 0,
+		"BINANCE:ZECUSDT": 0,
+	});
 	const lastEmitRef = useRef(0);
 
 	useEffect(() => {
 		if (!symbols.length || !API_KEY) return;
-
-		latestRef.current = {} as PriceMapProps;
 
 		const socket = new WebSocket(`${url}?token=${API_KEY}`);
 
@@ -52,7 +52,7 @@ export function useFinnhubSocket(
 			}
 
 			const now = Date.now();
-			if (now - lastEmitRef.current < throttleMs) return;
+			if (now - lastEmitRef.current < 1000) return;
 			lastEmitRef.current = now;
 
 			const updates: {
@@ -97,7 +97,7 @@ export function useFinnhubSocket(
 			}
 			socket.close();
 		};
-	}, [symbols.join(","), throttleMs, dispatch]);
+	}, [symbols.join(","), dispatch]);
 
 	return { connected };
 }

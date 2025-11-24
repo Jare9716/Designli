@@ -11,11 +11,6 @@ export function NotificationsTest() {
 	// Ask for permission once when the screen mounts
 	useEffect(() => {
 		const requestPermissions = async () => {
-			// if (!Device.isDevice) {
-			// 	console.log("Must use physical device for notifications on iOS.");
-			// 	return;
-			// }
-
 			const { status: existingStatus } =
 				await Notifications.getPermissionsAsync();
 			let finalStatus = existingStatus;

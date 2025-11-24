@@ -15,6 +15,17 @@ export function BottomTab() {
 				tabBarIcon: ({ size, color }) => {
 					return <TabBarIcon route={route.name} size={size} color={color} />;
 				},
+				tabBarInactiveTintColor: "white",
+				tabBarActiveTintColor: "#2563EB",
+				tabBarStyle: {
+					backgroundColor: "#1E293B",
+				},
+				headerStyle: {
+					backgroundColor: "#1E293B",
+				},
+				headerTitleStyle: {
+					color: "white",
+				},
 			})}
 		>
 			<Tab.Screen name="Watchlist" component={Watchlist} />

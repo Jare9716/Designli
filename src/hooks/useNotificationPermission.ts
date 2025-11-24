@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
 
 export function useNotificationPermission() {
 	const [granted, setGranted] = useState(false);
@@ -8,12 +7,6 @@ export function useNotificationPermission() {
 	useEffect(() => {
 		const askPermission = async () => {
 			try {
-				if (!Device.isDevice) {
-					console.log("Notifications only work on physical devices.");
-					setGranted(false);
-					return;
-				}
-
 				// Check existing permission
 				const { status } = await Notifications.getPermissionsAsync();
 				let finalStatus = status;

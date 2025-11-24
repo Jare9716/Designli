@@ -2,26 +2,18 @@ import { StyleSheet, FlatList } from "react-native";
 
 import { useAppSelector } from "@/redux/hooks";
 
-import { symbols } from "@/utils";
+import { convertSateToFlatList } from "./helpers";
 
 import { StockCard } from "./components/stockCard";
 
 export function Watchlist() {
-	const bySymbol = useAppSelector((state) => state.stock.bySymbol);
-
-	const data = symbols.map((symbol) => {
-		const stock = bySymbol[symbol];
-		return [symbol, stock.lastPrice] as const;
-	});
-
-	//TODO: check if the card cand received the data as it is.
-	// console.log(bySymbol);
+	const stock = useAppSelector((state) => state.stock);
+	const data = convertSateToFlatList(stock);
 
 	return (
 		<FlatList
 			style={styles.container}
 			data={data}
-			keyExtractor={([symbol]) => symbol}
 			renderItem={({ item }) => <StockCard data={item} />}
 			contentContainerStyle={styles.itemContainer}
 		/>

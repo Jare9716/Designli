@@ -1,22 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { PriceUpdateProps, MarketDataStateProps } from "@/types";
+import { PriceUpdateProps, StocksDataStateProps } from "@/types";
 
 import { makeInitialStock } from "../helpers";
 
-const initialState: MarketDataStateProps = {
+const initialState: StocksDataStateProps = {
 	bySymbol: {
-		"BINANCEUS:BTCUSD": makeInitialStock("BINANCEUS:BTCUSD", "Bitcoin"),
-		"BINANCEUS:ETHUSD": makeInitialStock("BINANCEUS:ETHUSD", "Ethereum"),
-		AAPL: makeInitialStock("AAPL", "Apple"),
-		TSLA: makeInitialStock("TSLA", "Tesla"),
+		"BINANCE:BTCUSDT": makeInitialStock("BINANCE:BTCUSDT", "Bitcoin"),
+		"BINANCE:ETHUSDT": makeInitialStock("BINANCE:ETHUSDT", "Ethereum"),
+		"BINANCE:BNBUSDT": makeInitialStock("BINANCE:BNBUSDT", "BNB"),
+		"BINANCE:ZECUSDT": makeInitialStock("BINANCE:ZECUSDT", "Zcash"),
 	},
 };
 
 const MAX_HISTORY = 100;
 
-export const marketDataSlice = createSlice({
-	name: "marketData",
+export const stocksDataSlice = createSlice({
+	name: "stocksData",
 	initialState,
 	reducers: {
 		pricesBatchUpdated(state, action: PayloadAction<PriceUpdateProps[]>) {
@@ -34,5 +34,5 @@ export const marketDataSlice = createSlice({
 	},
 });
 
-export const { pricesBatchUpdated } = marketDataSlice.actions;
-export default marketDataSlice.reducer;
+export const { pricesBatchUpdated } = stocksDataSlice.actions;
+export default stocksDataSlice.reducer;

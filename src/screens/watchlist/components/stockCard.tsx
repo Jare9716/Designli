@@ -1,12 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 
+import { StockSymbolsName } from "@/enums";
 import { StockCardProps } from "@/types";
 
-import { StockSymbolsName } from "@/enums";
+import { currencyFormat } from "@/utils/textTransform";
 
 export function StockCard({ data }: StockCardProps) {
-	const [symbol, price] = data;
+	const { symbol, price } = data;
 
 	const [changePct, setChangePct] = useState(0);
 	const baselineRef = useRef<number | null>(null);
@@ -38,11 +39,11 @@ export function StockCard({ data }: StockCardProps) {
 
 			<View style={styles.valuesContainer}>
 				<Text style={styles.priceText}>
-					{price != null ? "$" + price.toFixed(2) : "—"}
+					{price != null ? currencyFormat(price) : "—"}
 				</Text>
 				<Text style={[styles.changeText, { color: changeColor }]}>
 					{changePct >= 0 ? "+" : ""}
-					{changePct.toFixed(2)}%
+					{currencyFormat(changePct)}%
 				</Text>
 			</View>
 		</View>

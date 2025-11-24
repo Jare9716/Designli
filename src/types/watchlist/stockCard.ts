@@ -1,5 +1,5 @@
 import { StockSymbolsProps } from "../stock/data";
 
 export type StockCardProps = {
-	data: readonly [StockSymbolsProps, number | null];
+	data: { symbol: StockSymbolsProps; price: number | null };
 };

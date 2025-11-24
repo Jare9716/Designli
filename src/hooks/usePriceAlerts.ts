@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { alertMarkedTriggered } from "@/redux/slices/alertsSlice";
-import { RootState } from "@/redux/store";
+import { alertStockTriggered } from "@/redux/slices/alertsSlice";
+
+import { currencyFormat } from "@/utils/textTransform";
 
 export function usePriceAlerts(notificationsEnabled: boolean) {
-	const alerts = useAppSelector((state: RootState) => state.alerts.items);
-	const bySymbol = useAppSelector((state: RootState) => state.stock.bySymbol);
+	const alerts = useAppSelector((state) => state.alerts.items);
+	const bySymbol = useAppSelector((state) => state.stock.bySymbol);
 
 	const dispatch = useAppDispatch();
 
@@ -22,33 +23,27 @@ export function usePriceAlerts(notificationsEnabled: boolean) {
 			const lastPrice = stock?.lastPrice;
 
 			if (lastPrice == null) return;
-
-			const conditionMet =
-				alert.direction === "above"
-					? lastPrice >= alert.targetPrice
-					: lastPrice <= alert.targetPrice;
+			const conditionMet = lastPrice >= alert.targetPrice;
 
 			if (!conditionMet) return;
-
-			// fire & mark triggered
 			(async () => {
 				try {
 					await Notifications.scheduleNotificationAsync({
 						content: {
 							title: `${alert.symbol} crossed your target`,
-							body: `Current price: $${lastPrice.toFixed(
-								2
-							)} (alert: $${alert.targetPrice.toFixed(2)})`,
+							body: `Current price: $${currencyFormat(
+								lastPrice
+							)} (alert: $${currencyFormat(alert.targetPrice)})`,
 							data: {
 								alertId: alert.id,
 								symbol: alert.symbol,
 							},
 						},
-						trigger: null, // immediate
+						trigger: null,
 					});
 
 					dispatch(
-						alertMarkedTriggered({
+						alertStockTriggered({
 							id: alert.id,
 							triggeredAt: Date.now(),
 						})

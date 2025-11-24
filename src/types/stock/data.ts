@@ -1,10 +1,10 @@
 import { StockState } from "../redux/stockState";
 
 export type StockSymbolsProps =
-	| "BINANCEUS:BTCUSD"
-	| "BINANCEUS:ETHUSD"
-	| "AAPL"
-	| "TSLA";
+	| "BINANCE:BTCUSDT"
+	| "BINANCE:ETHUSDT"
+	| "BINANCE:BNBUSDT"
+	| "BINANCE:ZECUSDT";
 
 export type PriceMapProps = Record<StockSymbolsProps, number>;
 
@@ -24,6 +24,6 @@ export type PriceUpdateProps = {
 	timestamp: number;
 };
 
-export type MarketDataStateProps = {
+export type StocksDataStateProps = {
 	bySymbol: Record<StockSymbolsProps, StockState>;
 };

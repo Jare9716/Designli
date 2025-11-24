@@ -5,4 +5,5 @@ export * from "./watchlist/stockCard";
 export * from "./stock/data";
 export * from "./redux/stockState";
 export * from "./redux/alertsState";
+export * from "./stock/stocks";
 

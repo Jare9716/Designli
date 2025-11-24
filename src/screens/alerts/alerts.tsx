@@ -11,41 +11,45 @@ import {
 
 import { Picker } from "@react-native-picker/picker";
 
-import { StockSymbolsProps } from "@/types";
-import { symbols } from "@/utils";
-
 import { useAppDispatch } from "@/redux/hooks";
 import { alertAdded } from "@/redux/slices/alertsSlice";
 
+import { StockSymbolsProps } from "@/types";
+import { StockSymbolsName } from "@/enums";
+
+import { symbols, currencyFormat } from "@/utils";
+
 export function Alerts() {
-	const [symbol, setSymbol] = useState<StockSymbolsProps>("AAPL");
+	const [symbol, setSymbol] = useState<StockSymbolsProps>("BINANCE:BTCUSDT");
 	const [targetPrice, setTargetPrice] = useState("");
 
 	const dispatch = useAppDispatch();
 
-	const handleSave = () => {
-		const price = Number(targetPrice);
-
-		if (!price || price <= 0) {
-			Alert.alert("Invalid price", "Please enter a valid target price.");
-			return;
-		}
-
-		// 🔥 Create a real alert in Redux (direction defaults to "above" in the slice)
+	function createAlert(price: number) {
+		const id = symbol + "-" + Date.now();
 		dispatch(
 			alertAdded({
 				symbol,
 				targetPrice: price,
-				// direction: "above", // optional, we default this in the reducer
+				id,
 			})
 		);
+		setTargetPrice("");
+	}
 
+	const handleSave = () => {
+		const price = Number(targetPrice);
+		if (!price || price <= 0) {
+			Alert.alert("Invalid price", "Please enter a valid target price.");
+			return;
+		}
+		createAlert(price);
 		Alert.alert(
 			"Alert saved",
-			`Alert created for ${symbol} at $${price.toFixed(2)}`
+			`Alert created for ${StockSymbolsName[symbol]} at ${currencyFormat(
+				price
+			)}`
 		);
-
-		setTargetPrice("");
 	};
 
 	return (
@@ -56,10 +60,15 @@ export function Alerts() {
 					selectedValue={symbol}
 					onValueChange={(itemValue) => setSymbol(itemValue)}
 					dropdownIconColor="white"
-					style={styles.picker}
 				>
-					{symbols.map((s) => (
-						<Picker.Item key={s} label={s} value={s} color="white" />
+					{symbols.map((symbol) => (
+						<Picker.Item
+							key={symbol}
+							label={StockSymbolsName[symbol]}
+							value={symbol}
+							color="white"
+							style={styles.pickerItemStyle}
+						/>
 					))}
 				</Picker>
 			</View>
@@ -100,8 +109,8 @@ const styles = StyleSheet.create({
 		borderColor: "#374151",
 		backgroundColor: "#111827",
 	},
-	picker: {
-		color: "white",
+	pickerItemStyle: {
+		backgroundColor: "#111827",
 	},
 	input: {
 		backgroundColor: "#111827",
@@ -109,7 +118,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: "#374151",
 		paddingHorizontal: 12,
-		paddingVertical: 10,
+		height: 48,
 		color: "white",
 		marginTop: 4,
 	},
