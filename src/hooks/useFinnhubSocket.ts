@@ -28,6 +28,8 @@ export function useFinnhubSocket(symbols: StockSymbolsProps[]) {
 
 		const socket = new WebSocket(`${url}?token=${API_KEY}`);
 
+		latestRef.current = {} as PriceMapProps;
+
 		socket.onopen = () => {
 			setConnected(true);
 			symbols.forEach((symbol) => {
