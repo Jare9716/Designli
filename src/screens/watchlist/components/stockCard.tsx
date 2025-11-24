@@ -43,7 +43,7 @@ export function StockCard({ data }: StockCardProps) {
 				</Text>
 				<Text style={[styles.changeText, { color: changeColor }]}>
 					{changePct >= 0 ? "+" : ""}
-					{currencyFormat(changePct)}%
+					{changePct.toFixed(2)}%
 				</Text>
 			</View>
 		</View>
