@@ -8,27 +8,23 @@
 		"userInterfaceStyle": "light",
 		"newArchEnabled": true,
 		"splash": {
-			"image": "./assets/splash-icon.png",
+			"image": "./assets//appIcons/splash-icon.png",
 			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
+			"backgroundColor": "#020617"
 		},
-		"plugins": [
-			"expo-notifications",
-			"expo-font",
-			[
-				"react-native-auth0",
-				{
-					"domain": "dev-w6wz71g51a3bmae1.us.auth0.com"
-				}
-			]
-		],
+		"plugins": ["expo-notifications", "expo-font"],
 		"ios": {
 			"supportsTablet": true,
-			"bundleIdentifier": "com.mrblonde97.Designli"
+			"bundleIdentifier": "com.mrblonde97.Designli",
+			"icon": {
+				"dark": "./assets/appIcons/Dark.png",
+				"light": "./assets/appIcons/Light.png",
+				"tinted": "./assets/appIcons/Tinted.png"
+			}
 		},
 		"android": {
 			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
+				"foregroundImage": "./assets/appIcons/adaptive-icon.png",
 				"backgroundColor": "#ffffff"
 			},
 			"edgeToEdgeEnabled": true,
@@ -37,6 +33,11 @@
 		},
 		"web": {
 			"favicon": "./assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "f8119e49-412d-4ed8-834b-2adafdfa243f"
+			}
 		}
 	}
 }
