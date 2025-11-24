@@ -67,10 +67,18 @@ Add to your app.json plugins:
 ]
 ```
 
+Create the developer build:
+
+```
+npx expo prebuild
+```
+
 Run the project:
 
 ```
-npx expo start
+npx expo run:android 
+OR
+npx expo run:iOs 
 ```
 
 ---
