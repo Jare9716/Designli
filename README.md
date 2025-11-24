@@ -56,6 +56,17 @@ EXPO_PUBLIC_AUTH0_DOMAIN=your_auth0_domain
 EXPO_PUBLIC_AUTH0_CLIENT_ID=your_client_id
 ```
 
+Add to your app.json plugins:
+
+```
+[
+  "react-native-auth0",
+    {
+      "domain": "dev-w6wz71g51a3bmae1.us.auth0.com"
+    }
+]
+```
+
 Run the project:
 
 ```
