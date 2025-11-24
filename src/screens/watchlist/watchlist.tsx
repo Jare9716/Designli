@@ -6,7 +6,7 @@ import { convertSateToFlatList } from "./helpers";
 
 import { StockCard } from "./components/stockCard";
 
-export function Watchlist() {
+function Watchlist() {
 	const stock = useAppSelector((state) => state.stock);
 	const data = convertSateToFlatList(stock);
 

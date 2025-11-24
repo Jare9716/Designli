@@ -1,36 +1,42 @@
 {
-  "expo": {
-    "name": "Designli",
-    "slug": "Designli",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "plugins": [
-      "expo-notifications",
-      "expo-font"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.mrblonde97.Designli"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "package": "com.mrblonde97.Designli"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	"expo": {
+		"name": "Designli",
+		"slug": "Designli",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "light",
+		"newArchEnabled": true,
+		"splash": {
+			"image": "./assets/splash-icon.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"plugins": [
+			"expo-notifications",
+			"expo-font",
+			[
+				"react-native-auth0",
+				{
+					"domain": "dev-w6wz71g51a3bmae1.us.auth0.com"
+				}
+			]
+		],
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.mrblonde97.Designli"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"edgeToEdgeEnabled": true,
+			"predictiveBackGestureEnabled": false,
+			"package": "com.mrblonde97.Designli"
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
+		}
+	}
 }

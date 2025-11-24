@@ -19,7 +19,7 @@ import { StockSymbolsName } from "@/enums";
 
 import { symbols, currencyFormat } from "@/utils";
 
-export function Alerts() {
+function Alerts() {
 	const [symbol, setSymbol] = useState<StockSymbolsProps>("BINANCE:BTCUSDT");
 	const [targetPrice, setTargetPrice] = useState("");
 

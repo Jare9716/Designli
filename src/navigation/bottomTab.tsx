@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { BottomTabParamList } from "@/types";
 
-import { Stocks, Watchlist, Alerts } from "@/screens";
+import { Stocks, Watchlist, Alerts, Profile } from "@/screens";
 
 import { TabBarIcon } from "@/components";
 
@@ -31,6 +31,7 @@ export function BottomTab() {
 			<Tab.Screen name="Watchlist" component={Watchlist} />
 			<Tab.Screen name="Stocks" component={Stocks} />
 			<Tab.Screen name="Alerts" component={Alerts} />
+			<Tab.Screen name="Profile" component={Profile} />
 		</Tab.Navigator>
 	);
 }
