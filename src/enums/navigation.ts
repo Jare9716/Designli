@@ -1,6 +1,6 @@
 export enum ScreenIcon {
-	Alerts = "list-alt",
-	Stocks = "menu",
-	Watchlist = "content-paste-search",
-	Profile = "user",
+	Alerts = "notifications",
+	Stocks = "show-chart",
+	Watchlist = "list-alt",
+	Profile = "person-outline",
 }
