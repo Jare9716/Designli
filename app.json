@@ -12,7 +12,16 @@
 			"resizeMode": "contain",
 			"backgroundColor": "#020617"
 		},
-		"plugins": ["expo-notifications", "expo-font"],
+		"plugins": [
+			"expo-notifications",
+			"expo-font",
+			[
+				"react-native-auth0",
+				{
+					"domain": "dev-w6wz71g51a3bmae1.us.auth0.com"
+				}
+			]
+		],
 		"ios": {
 			"supportsTablet": true,
 			"bundleIdentifier": "com.mrblonde97.Designli",
