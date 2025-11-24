@@ -1,19 +1,28 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { BottomTab } from "./bottomTab";
+import { RootStackParamList, RootStackProps } from "@/types";
 
-import { RootStackParamList } from "@/types";
+import { BottomTab } from "./bottomTab";
+import { Login } from "@/screens";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export function RootStack() {
+export function RootStack({ user }: RootStackProps) {
 	return (
 		<Stack.Navigator>
-			<Stack.Screen
-				name="BottomTab"
-				component={BottomTab}
-				options={{ headerShown: false }}
-			/>
+			{user ? (
+				<Stack.Screen
+					name="BottomTab"
+					component={BottomTab}
+					options={{ headerShown: false }}
+				/>
+			) : (
+				<Stack.Screen
+					name="Login"
+					component={Login}
+					options={{ headerShown: false }}
+				/>
+			)}
 		</Stack.Navigator>
 	);
 }

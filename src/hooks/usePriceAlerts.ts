@@ -4,17 +4,18 @@ import * as Notifications from "expo-notifications";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { alertStockTriggered } from "@/redux/slices/alertsSlice";
 
+import { usePriceAlertsProps } from "@/types";
+
 import { currencyFormat } from "@/utils/textTransform";
 
-export function usePriceAlerts(notificationsEnabled: boolean) {
+export function usePriceAlerts({ granted, user }: usePriceAlertsProps) {
 	const alerts = useAppSelector((state) => state.alerts.items);
 	const bySymbol = useAppSelector((state) => state.stock.bySymbol);
 
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (!notificationsEnabled) return;
-		if (!alerts.length) return;
+		if (!granted || !alerts.length || !user) return;
 
 		alerts.forEach((alert) => {
 			if (!alert.enabled || alert.triggeredAt) return;
@@ -53,5 +54,5 @@ export function usePriceAlerts(notificationsEnabled: boolean) {
 				}
 			})();
 		});
-	}, [alerts, bySymbol, dispatch]);
+	}, [alerts, bySymbol, dispatch, granted, user]);
 }

@@ -1,5 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 
+import { useAuth0 } from "react-native-auth0";
+
 import {
 	useFinnhubSocket,
 	usePriceAlerts,
@@ -11,12 +13,15 @@ import { symbols } from "@/utils";
 import { RootStack } from "./rootStack";
 
 function Navigation() {
-	const { connected } = useFinnhubSocket(symbols);
+	const { user } = useAuth0();
 	const { granted } = useNotificationPermission();
-	usePriceAlerts(granted);
+
+	const { connected } = useFinnhubSocket({ symbols, user });
+	usePriceAlerts({ granted, user });
+
 	return (
 		<NavigationContainer>
-			<RootStack />
+			<RootStack user={user} />
 		</NavigationContainer>
 	);
 }

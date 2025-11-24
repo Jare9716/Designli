@@ -14,7 +14,7 @@ import { currencyFormat, timeFormat } from "@/utils";
 
 import { SelectSymbol } from "./components/selectSymbol";
 
-export function Stocks() {
+function Stocks() {
 	const font = useFont(require("../../../assets/fonts/Roboto-Regular.ttf"), 14);
 
 	const [selectedSymbol, setSelectedSymbol] =

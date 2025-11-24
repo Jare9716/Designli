@@ -5,9 +5,14 @@ import { pricesBatchUpdated } from "@/redux/slices/stockSlice";
 
 import { Urls } from "@/networking/urls";
 
-import { TradeMessageProps, StockSymbolsProps, PriceMapProps } from "@/types";
+import {
+	TradeMessageProps,
+	StockSymbolsProps,
+	PriceMapProps,
+	useFinnhubSocketProps,
+} from "@/types";
 
-export function useFinnhubSocket(symbols: StockSymbolsProps[]) {
+export function useFinnhubSocket({ symbols, user }: useFinnhubSocketProps) {
 	const [connected, setConnected] = useState(false);
 
 	const API_KEY = process.env.EXPO_PUBLIC_FINNHUB_API_KEY;
@@ -24,7 +29,7 @@ export function useFinnhubSocket(symbols: StockSymbolsProps[]) {
 	const lastEmitRef = useRef(0);
 
 	useEffect(() => {
-		if (!symbols.length || !API_KEY) return;
+		if (!symbols.length || !API_KEY || !user) return;
 
 		const socket = new WebSocket(`${url}?token=${API_KEY}`);
 
@@ -99,7 +104,7 @@ export function useFinnhubSocket(symbols: StockSymbolsProps[]) {
 			}
 			socket.close();
 		};
-	}, [symbols.join(","), dispatch]);
+	}, [symbols.join(","), dispatch, user]);
 
 	return { connected };
 }
